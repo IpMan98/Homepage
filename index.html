@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .center {
+            margin: 100px auto;
+            width: 600px;
+            height: auto;
+        }
+
+        .center img {
+            width: 270px;
+            height: 129px;
+        }
+
+        #seach {
+            width: 600px;
+            height: 44px;
+            border: 2px solid blue;
+            border-radius: 10px;
+        }
+
+        #seach a {
+            font-size: 18px;
+            text-align: center;
+            line-height: 44px;
+            color: #fff;
+            text-decoration: none;
+            float: right;
+            width: 150px;
+            height: 44px;
+            border-radius: 0 10px 10px 0;
+            background-color: blue;
+        }
+
+        #kw {
+            width: 400px;
+            height: 35px;
+            margin-left: 10px;
+            margin-top: 2px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+        }
+        #txt span{
+            display:block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="center">
+        <img src="/images/logo.png">
+        <div id="seach">
+            <input type="text" id="kw"><a href="javascript:;" id="btn">百度一下</a>
+             <p id="txt"></p>
+        </div>
+    </div>
+</body>
+<script src="ajax.js"></script>
+<script>
+    var btn = document.getElementById("btn");
+    var kw = document.getElementById("kw");
+    var txt = document.getElementById("txt");
+    kw.onkeyup = function () {
+        txt.innerHTML = '';
+        console.log(kw.value)
+        ajax({
+            url: "baidu.php",
+            type: "get",
+            data: "wd=" + kw.value,
+            success: function (data) {
+                var json = JSON.parse(data);
+                console.log(json);
+                for(var i=0; i<json.s.length;i++){
+                   txt.innerHTML += `<span>${json.s[i]}</span>`
+                }
+            },
+            error: function (status) {
+                console.log('请求失败');
+            }
+        });
+    }
+</script>
+
+</html>
